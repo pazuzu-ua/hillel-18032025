@@ -3,7 +3,7 @@ Hillel test git repo.
 
 Welcome!
 
-Github tutorial:
+A set of actions to d ofor every homework:
 
 1. Be sure that you are on "main" branch
 
