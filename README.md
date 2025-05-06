@@ -3,7 +3,7 @@ Hillel test git repo.
 
 Welcome!
 
-A set of actions to d ofor every homework:
+A set of actions to do for every homework:
 
 1. Be sure that you are on "main" branch
 
