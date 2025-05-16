@@ -60,5 +60,4 @@ import sqlite3
 #             WHERE i_user = ?
 #         ''',
 #         ( 10, )
-#     )
-#     print( conn.total_changes )
+#     )print( conn.total_changes )
