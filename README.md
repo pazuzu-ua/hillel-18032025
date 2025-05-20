@@ -41,3 +41,11 @@ git commit -m "Some message"
 ```
 git push origin BRANCH_*
 ```
+
+JIC:
+
+1. How to amend commit:
+
+```
+git commit --amend
+```
