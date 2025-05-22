@@ -11,6 +11,7 @@ with sqlite3.connect('Cats.db') as conn:
         )
     ''')
 
+    cursor.execute("DELETE FROM cats")
     cats = [
         ('Капучино', 12),
         ('Сырок', 8),
@@ -19,21 +20,19 @@ with sqlite3.connect('Cats.db') as conn:
         ('Уголёк', 5),
         ('Хвостик', 4),
     ]
+    cursor.executemany("INSERT INTO cats (name, weight) VALUES (?, ?)", cats)
+    conn.commit()
 
-    cursor.execute("SELECT COUNT(*) FROM cats")
-    if cursor.fetchone()[0] == 0:
-        cursor.executemany("INSERT INTO cats (name, weight) VALUES (?, ?)", cats)
-        conn.commit()
+# Select cats weighing between 10 and 15 kg
 
-    cursor.execute("SELECT * FROM cats")
-    all_cats = cursor.fetchall()
+#   print("Коты от 10 до 15 кг:")
+#   cursor.execute("SELECT name FROM cats WHERE weight BETWEEN 10 AND 15")
+#   for (name,) in cursor.fetchall():
+#        print(name)
 
-    filtered_names = [name for (cat_id, name, weight) in all_cats if 10 <= weight <= 15]
-    print("Коты с весом от 10 до 15 кг:")
-    for name in filtered_names:
-        print(name)
+# Select all cats and sort them by weight
 
-    sorted_cats = sorted(all_cats, key=lambda cat: cat[2])
-    print("Все коты, отсортированные по весу:")
-    for cat in sorted_cats:
-        print(cat)
+#   print("Все коты по весу:")
+#   cursor.execute("SELECT * FROM cats ORDER BY weight")
+#   for cat in cursor.fetchall():
+#       print(cat)
