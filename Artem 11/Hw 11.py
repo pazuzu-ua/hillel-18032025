@@ -15,4 +15,3 @@ values ('Tuzik', 15),
 SELECT *
 From Cats
 where weight between 10 and 15
-group by weight;
