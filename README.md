@@ -27,7 +27,7 @@ git checkout -b BRANCH_*
 4. Do the task and add all the files
 
 ```
-git add .
+git add .git add -u
 ```
 
 5. Create commit
