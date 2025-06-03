@@ -5,7 +5,7 @@ Welcome!
 
 A set of actions to do for every homework:
 
-1. Be sure that you are on "main" branch
+1.. Be sure that you are on "main" branch
 
 ```
 git switch main
