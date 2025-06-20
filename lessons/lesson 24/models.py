@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, computed_field
 from datetime import date
 
 
@@ -28,7 +28,7 @@ class PetBase(BaseModel):
     )
 
 
-class AddPet(PetBase):
+class AddUpdatePet(PetBase):
     ...
 
 
@@ -38,3 +38,10 @@ class PetInfo(PetBase):
         examples=[150],
         gt=0,
     )
+
+    @computed_field
+    @property
+    def age(self) -> int:
+        today = date.today()
+        delta = today - self.date_of_birth
+        return delta.days // 365

@@ -1,6 +1,6 @@
 import sqlite3
 
-from models import PetInfo, AddPet
+from models import PetInfo, AddUpdatePet
 
 
 DB_PATH: str = "pets.db"
@@ -46,7 +46,7 @@ def fetch_pet_info( i_pet: int ) -> PetInfo | None:
         return PetInfo(**pet) if pet else None
 
 
-def add_new_pet( pet: AddPet ) -> PetInfo | None:
+def add_new_pet( pet: AddUpdatePet ) -> PetInfo | None:
     with sqlite3.connect(DB_PATH) as connection:
         cursor = connection.cursor()
         cursor.execute(
@@ -56,3 +56,30 @@ def add_new_pet( pet: AddPet ) -> PetInfo | None:
         connection.commit()
         i_pet = cursor.lastrowid
         return fetch_pet_info( i_pet ) if i_pet else None
+
+
+def delete_pet( i_pet: int ) -> bool:
+    with sqlite3.connect(DB_PATH) as connection:
+        cursor = connection.cursor()
+        cursor.execute("DELETE FROM Pets WHERE i_pet = ?", ( i_pet, ))
+        connection.commit() # ми хочемо впевнетися, що отримаємо результат виконання
+        return cursor.rowcount > 0
+
+
+def update_pet( i_pet: int, pet: AddUpdatePet ) -> PetInfo | None:
+    with sqlite3.connect(DB_PATH) as connection:
+        cursor = connection.cursor()
+        cursor.execute(
+            """
+                UPDATE Pets
+                   SET name = ?, date_of_birth = ?, pet_type = ?, vaccinated = ?
+                 WHERE i_pet = ?
+            """,
+            ( pet.name, pet.date_of_birth.isoformat(), pet.pet_type, int(pet.vaccinated), i_pet )
+        )
+        connection.commit()
+
+        if cursor.rowcount == 0:
+            return None
+        
+        return fetch_pet_info(i_pet)
