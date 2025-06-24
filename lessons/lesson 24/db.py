@@ -16,6 +16,13 @@ def init_db():
                 vaccinated INTEGER NOT NULL        
             )
         ''')
+        connection.execute('''
+            CREATE TABLE IF NOT EXISTS Users(
+                i_user INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL,
+                hashed_password TEXT NOT NULL
+            )
+        ''')
         connection.execute(
             '''
                 INSERT OR IGNORE INTO Pets ( i_pet, name, date_of_birth, pet_type, vaccinated )
@@ -83,3 +90,23 @@ def update_pet( i_pet: int, pet: AddUpdatePet ) -> PetInfo | None:
             return None
         
         return fetch_pet_info(i_pet)
+
+def add_new_user( username: str, hashed_password: str ) -> int | None:
+     with sqlite3.connect(DB_PATH) as connection:
+        cursor = connection.cursor()
+        cursor.execute(
+            "INSERT INTO Users (username, hashed_password) VALUES (?, ?)",
+            ( username, hashed_password )
+        )
+        connection.commit()
+        return cursor.lastrowid
+
+def get_user_by_username( username: str ) -> dict | None:
+    with sqlite3.connect(DB_PATH) as connection:
+        #? --> це щоби повертало словнички
+        connection.row_factory = sqlite3.Row
+        user = connection.execute(
+            "SELECT * FROM Users WHERE username = ?",
+            ( username, )
+        )
+        return dict(user) if user else None
