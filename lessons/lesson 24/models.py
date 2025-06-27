@@ -45,3 +45,29 @@ class PetInfo(PetBase):
         today = date.today()
         delta = today - self.date_of_birth
         return delta.days // 365
+
+
+class UserCreate(BaseModel):
+    username: str = Field(
+        description="The unique login of the user",
+        examples=["user_login"],
+        min_length=3,
+    )
+    password: str = Field(
+        description="The password of the user.",
+        examples=["Cvrtg46ergfr"],
+        min_length=6,
+    )
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+
+
+class UserInfo(BaseModel):
+    i_user: int
+    username: str
+
+
+class Token(BaseModel):
+    access_token: str
