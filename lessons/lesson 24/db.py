@@ -108,5 +108,5 @@ def get_user_by_username( username: str ) -> dict | None:
         user = connection.execute(
             "SELECT * FROM Users WHERE username = ?",
             ( username, )
-        )
-        return dict(user) if user else None
+        ).fetchone()
+        return user if user else None
