@@ -1,12 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 from models import PetInfo, AddUpdatePet
 
 import db
-
+import auth
 
 # 127.0.0.1:7000 + prefix => 127.0.0.1:7000/pets
-router = APIRouter( prefix="/pets", tags=["pets"] )
+router = APIRouter( prefix="/pets", tags=["pets"], dependencies=[ Depends(auth.get_current_user) ] )
 
 # 127.0.0.1:7000 + prefix + path
 # 127.0.0.1:7000/pets/
