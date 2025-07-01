@@ -1,0 +1,38 @@
+<!-- КОМЕНТАР -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+        <title>{{page_title}}</title>
+    </head>
+
+    <body>
+        <!-- TYPOGRAPHY -->
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1>Я найбільший заголовок!</h1>
+                    <h3>Я менший заголовок!</h3>
+                    <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo-shadow.png" alt="Текст замість картинки">
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi nulla eligendi est adipisci provident corrupti veritatis nam ea dolor asperiores fugiat velit, aut, voluptas facilis, non aspernatur incidunt vel saepe!</p>
+                    <p>{{page_title.upper()}}</p>
+                </div>
+                <!-- СПИСОК -->
+                <div class="col">
+                    <ul>
+                        {% for number in range(10) %}
+                            {% if number == 7 %}
+                                <li>Lucky Number {{number}}</li>
+                            {% else %}
+                                <li>Number {{number}}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

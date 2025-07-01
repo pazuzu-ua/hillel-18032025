@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from api import router as pet_router
 from auth import router as auth_router
+from ui import router as ui_router
 
 import db
 
@@ -20,3 +21,4 @@ app = FastAPI(
 
 app.include_router(auth_router)
 app.include_router(pet_router)
+app.include_router(ui_router)
