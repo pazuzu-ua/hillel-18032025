@@ -11,16 +11,17 @@ def init_db():
                 name  TEXT NOT NULL,
                 release_date TEXT NOT NULL,
                 genre TEXT NOT NULL,
-                is_popular INTEGER NOT NULL           
+                is_popular INTEGER NOT NULL,
+                author_name TEXT NOT NULL         
             )
         ''')
         connection.execute(
             '''
-                INSERT OR IGNORE INTO Songs ( name, release_date, genre, is_popular)
+                INSERT OR IGNORE INTO Songs ( name, release_date, genre, is_popular, author_name)
                 VALUES 
-                    ('Under Your Spell', '2021-12-01', 'hyperpop', 1),
-                    ('I Hate You', '2023-05-04', 'rock', 1),
-                    ('Lost Angeles', '2021-03-25', 'drain', 1)
+                    ('Under Your Spell', '2021-12-01', 'hyperpop', 1, 'Fortuna812'),
+                    ('I Hate You', '2023-05-04', 'rock', 1, 'Fortuna812'),
+                    ('Lost Angeles', '2021-03-25', 'drain', 1, 'Fortuna812')
             '''
         )
         connection.commit()

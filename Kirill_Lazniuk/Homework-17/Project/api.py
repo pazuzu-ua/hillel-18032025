@@ -10,7 +10,7 @@ router = APIRouter( prefix="/songs", tags=["songs"])
             summary="List all the songs in the library")
 def get_songs_list():
 
-    songs = db.fetch_all_songs
+    songs = db.fetch_all_songs()
     print(songs)
 
 
