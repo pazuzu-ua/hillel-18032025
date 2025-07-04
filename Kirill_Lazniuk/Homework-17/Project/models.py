@@ -35,7 +35,7 @@ class SongBase(BaseModel):
         examples=[True]
     )
 
-class AddSong(SongBase):
+class AddUpdateSong(SongBase):
     ...
 
 

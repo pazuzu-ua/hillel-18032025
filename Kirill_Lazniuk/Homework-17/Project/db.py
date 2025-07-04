@@ -1,14 +1,14 @@
 import sqlite3
-from models import SongInfo, AddSong
+from models import SongInfo, AddUpdateSong
 
 DB_PATH: str = "songs.db"
 
 def init_db():
     with sqlite3.connect(DB_PATH) as connection:
         connection.execute('''
-            CREATE TABLE IF NOT EXISTS Songs(
+            CREATE TABLE IF NOT EXISTS Songs (
                 i_song INTEGER PRIMARY KEY AUTOINCREMENT,
-                name  TEXT NOT NULL,
+                name TEXT NOT NULL,
                 release_date TEXT NOT NULL,
                 genre TEXT NOT NULL,
                 is_popular INTEGER NOT NULL,
@@ -27,14 +27,14 @@ def init_db():
 def fetch_song_info(i_song: int) -> SongInfo | None:
     with sqlite3.connect(DB_PATH) as connection:
         connection.row_factory = sqlite3.Row
-        song = connection.execute("SELECT * FROM Songs WHERE i_song = ?", (i_song,)).fetchone()
-        return SongInfo(**song) if song else None
+        row = connection.execute("SELECT * FROM Songs WHERE i_song = ?", (i_song,)).fetchone()
+        return SongInfo(**row) if row else None
 
 def fetch_all_songs() -> list[SongInfo]:
     with sqlite3.connect(DB_PATH) as connection:
         connection.row_factory = sqlite3.Row
-        songs = connection.execute("SELECT * FROM Songs").fetchall()
-        return [SongInfo(**song) for song in songs]
+        rows = connection.execute("SELECT * FROM Songs").fetchall()
+        return [SongInfo(**row) for row in rows]
 
 def delete_song(i_song: int) -> bool:
     with sqlite3.connect(DB_PATH) as connection:
@@ -43,7 +43,7 @@ def delete_song(i_song: int) -> bool:
         connection.commit()
         return cursor.rowcount > 0
 
-def add_new_song(song: AddSong) -> SongInfo | None:
+def add_new_song(song: AddUpdateSong) -> SongInfo | None:
     with sqlite3.connect(DB_PATH) as connection:
         cursor = connection.cursor()
         cursor.execute(
@@ -52,4 +52,21 @@ def add_new_song(song: AddSong) -> SongInfo | None:
         )
         connection.commit()
         i_song = cursor.lastrowid
+        return fetch_song_info(i_song)
+
+def update_song(i_song: int, song: AddUpdateSong) -> SongInfo | None:
+    with sqlite3.connect(DB_PATH) as connection:
+        cursor = connection.cursor()
+        cursor.execute(
+            """UPDATE Songs
+               SET name = ?, release_date = ?, genre = ?, is_popular = ?, author_name = ?
+               WHERE i_song = ?
+            """,
+            (song.name, song.release_date, song.genre, int(song.is_popular), song.author_name, i_song)
+        )
+        connection.commit()
+
+        if cursor.rowcount == 0:
+            return None
+
         return fetch_song_info(i_song)
