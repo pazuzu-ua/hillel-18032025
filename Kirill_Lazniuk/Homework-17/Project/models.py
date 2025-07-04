@@ -10,12 +10,7 @@ class SongsGenreEnum(str, Enum):
     ROCK = "rock"
 
 
-class SongInfo(BaseModel):
-    i_song: int = Field(
-        description="The ID of the song",
-        examples=[12],
-        gt=0,
-    )
+class SongBase(BaseModel):
     name: str = Field(
         description="The name of the song",
         examples=["ParisLove"],
@@ -38,4 +33,15 @@ class SongInfo(BaseModel):
     is_popular: bool = Field(
         description="True if the track has more than 1,000,000 plays",
         examples=[True]
+    )
+
+class AddSong(SongBase):
+    ...
+
+
+class SongInfo(SongBase):
+    i_song: int = Field(
+        description="The ID of the song",
+        examples=[12],
+        gt=0,
     )
